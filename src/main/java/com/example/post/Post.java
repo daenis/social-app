@@ -2,6 +2,7 @@ package com.example.post;
 
 import javax.persistence.*;
 import java.io.Serializable;
+import java.util.ArrayList;
 import java.util.List;
 
 @Entity
@@ -19,7 +20,7 @@ public class Post implements Serializable {
     private String text;
 
     @OneToMany(cascade = CascadeType.ALL, mappedBy = "post", orphanRemoval = true)
-    private List<Comment> comments;
+    private List<Comment> comments = new ArrayList<>();
 
     public Integer getPostId() {
         return postId;
@@ -51,8 +52,8 @@ public class Post implements Serializable {
     }
 
     public void removeComment(Comment comment) {
+        comments.remove(comment);
         comment.setPost(null);
-        this.comments.remove(comment);
     }
 
 }

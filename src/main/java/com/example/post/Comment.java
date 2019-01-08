@@ -1,5 +1,7 @@
 package com.example.post;
 
+import com.fasterxml.jackson.annotation.JsonIgnore;
+
 import javax.persistence.*;
 import java.io.Serializable;
 
@@ -14,13 +16,12 @@ public class Comment implements Serializable {
     @Column(name = "COMMENT_ID")
     private Integer commentId;
 
-    @Column(name = "POST_ID")
-    private Integer postId;
-
     @Column(name = "TEXT")
     private String text;
 
-    @ManyToOne
+    @JsonIgnore
+    @ManyToOne(fetch = FetchType.LAZY)
+    @JoinColumn(name = "POST_ID")
     private Post post;
 
     public Integer getCommentId() {
@@ -29,14 +30,6 @@ public class Comment implements Serializable {
 
     public void setCommentId(Integer commentId) {
         this.commentId = commentId;
-    }
-
-    public Integer getPostId() {
-        return postId;
-    }
-
-    public void setPostId(Integer postId) {
-        this.postId = postId;
     }
 
     public String getText() {
